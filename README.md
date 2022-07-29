@@ -1,4 +1,6 @@
+<a href="https://www.jpmorgan.com/technology/artificial-intelligence">
 <img src="./assets/xai_coe-logo.png" alt="Explainale AI Center of Excellence Logo">
+</a>
 
 
 # Counterfactual SHAP (`cf-shap`)
