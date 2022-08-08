@@ -23,6 +23,9 @@ J.P. Morgan AI Research
   doi = {10.1145/3531146.3533168}
 }
 ```
+
+_Note that this repository only contains the Python package implementing the algorithms proposed in the paper, if you are instead looking to reproduce the experiments presented in the paper check out the following repository.
+[https://github.com/jpmorganchase/cf-shap-facct22](https://github.com/jpmorganchase/cf-shap-facct22)_
  
 ## 1. Installation
 To install the package manually, simply use the following commands. Note that this package depends on shap>=0.39.0 package: you may want to install this package or the other dependencies manually (using conda or pip). See setup.py for more details on the dependencies of the package.
