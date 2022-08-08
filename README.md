@@ -1,5 +1,6 @@
 <a href="https://www.jpmorgan.com/technology/artificial-intelligence">
-<img src="./assets/xai_coe-logo.png" alt="Explainale AI Center of Excellence Logo" height="75">
+<img align="middle" src="./assets/jpmorgan-logo.svg" alt="JPMorgan Logo" height="40">
+<img align="middle" src="./assets/xai_coe-logo.png" alt="Explainale AI Center of Excellence Logo" height="75">
 </a>
 
 
@@ -16,7 +17,33 @@ J.P. Morgan AI Research
 
 [ACM](https://dl-acm-org.iclibezp1.cc.ic.ac.uk/doi/abs/10.1145/3531146.3533168) | [ArXiv](https://arxiv.org/abs/2110.14270)
  
+## 1. Installation
+To install the package manually, simply use the following commands. Note that this package depends on shap>=0.39.0 package: you may want to install this package or the other dependencies manually (using conda or pip). See setup.py for more details on the dependencies of the package.
 
+```bash
+# Clone the repo into the `cf-shap` directory
+git clone https://github.com/jpmorganchase/cf-shap.git
+
+# Install the package in editable mode
+pip install -e cf-shap
+```
+
+
+## 2. Usage
+
+```python 
+from cfshap import ...
+
+TODO
+
+```
+
+
+## 3. Contacts & Credits
+
+For further information or queries on this work you can contact the _Explainable AI Center of Excellence at J.P. Morgan_ ([xai.coe@jpmchase.com](mailto:xai.coe@jpmchase.com)) or [Emanuele Albini](https://www.emanuelealbini.com), the main author of the paper.
+
+If you use this package please cite the following paper. Thanks!
 ```
 @inproceedings{Albini2022,
   title = {Counterfactual {{Shapley Additive Explanations}}},
@@ -28,7 +55,3 @@ J.P. Morgan AI Research
   doi = {10.1145/3531146.3533168}
 }
 ```
-
-
-
-
