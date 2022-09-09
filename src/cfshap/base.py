@@ -195,7 +195,7 @@ class BaseExplainer(BaseClass, ABC):
 
     def get_backgrounds(self, X: np.ndarray) -> np.ndarray:
         """Returns the background datasets for query instances X"""
-        raise NotImplementedError('get_background_data method is not implemented!')
+        raise NotImplementedError('get_backgrounds method is not implemented!')
 
     def __call__(self, X: np.ndarray) -> attrdict:
         """Returns the explanations

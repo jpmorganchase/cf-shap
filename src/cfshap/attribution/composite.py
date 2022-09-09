@@ -95,7 +95,7 @@ class CompositeExplainer(BaseExplainer):
             assert len(self.background_data) == X.shape[0]
             return background_data
 
-    def _get_background_data_iterator(self, X, background_data):
+    def _get_backgrounds_iterator(self, X, background_data):
         iters = zip(X, background_data)
         if len(X) > 100 and self.verbose:
             iters = tqdm(iters)
@@ -124,7 +124,7 @@ class CompositeExplainer(BaseExplainer):
         backgrounds = self.get_backgrounds(X, background_data)
 
         shapvals = []
-        for x, background in self._get_background_data_iterator(X, backgrounds):
+        for x, background in self._get_backgrounds_iterator(X, backgrounds):
             if len(background) > 0:
                 # Set background
                 self.explainer.data = background
@@ -155,7 +155,7 @@ class CompositeExplainer(BaseExplainer):
         backgrounds = self.get_backgrounds(X, background_data)
 
         trends = []
-        for x, background in self._get_background_data_iterator(X, backgrounds):
+        for x, background in self._get_backgrounds_iterator(X, backgrounds):
             if len(background) > 0:
                 self.explainer.data = background
                 trends.append(self.explainer.get_trends(x.reshape(1, -1))[0])
@@ -193,7 +193,7 @@ class CompositeExplainer(BaseExplainer):
         except NotImplementedError:
             trends = None
 
-        for x, background in self._get_background_data_iterator(X, backgrounds):
+        for x, background in self._get_backgrounds_iterator(X, backgrounds):
             if len(background) > 0:
                 self.explainer.data = background
                 shapvals.append(self.explainer.get_attributions(x.reshape(1, -1))[0])
