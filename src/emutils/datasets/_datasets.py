@@ -171,6 +171,7 @@ def load_dataset(dataset='boston', task='classification', as_frame=False, return
         if dataset == 'boston':
             dt = fetch_openml('boston', version=1, **kwargs)
             dt.target = 1 * (dt.target >= 21.2)
+            dt.data = dt.data.astype(float)
         elif dataset == 'breastcancer':
             dt = load_breast_cancer(**kwargs)
         elif dataset == 'adult':
