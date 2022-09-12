@@ -47,9 +47,11 @@ NOTE: You may want to install the dependencies manually, check `install_requires
 
 ## 2. Basic Usage Example
 
+The following example shows how to use the package to generate the feature importance explanations with 100-NN as counterfactual generator and the SHAP TreeExplainer as feature importance estimator.
+
 ```python 
 
-X_train, X_test = ... # Must be Numpy arrays
+X, y = ... # Must be Numpy arrays
 model = ... # Must implement .predict() and .predict_proba() methods.
 
 from emutils.preprocessing.quantiletransformer import EfficientQuantileTransformer
@@ -59,28 +61,43 @@ from cfshap.trend import TrendEstimator
 
 MAX_SAMPLES = 10000
 
-scaler = EfficientQuantileTransformer()
-scaler.fit(X_train)
+X, y = load_dataset(dataset_name, task='classification', return_X_y=True)
+model = train_model(X, y, model_type=model_type, params=dict(random_state=random_seed))
 
+# We will need a scaler in the input space for the counterfactual generator
+scaler = EfficientQuantileTransformer()
+scaler.fit(X)
+
+# Background/Counterfactuals generator
+background_generator = KNNCounterfactuals(
+    model=model,
+    X=X,
+    n_neighbors=100,
+    distance='cityblock',
+    scaler=scaler,
+    max_samples=MAX_SAMPLES,
+)
+
+# We will need a trend estimator for the attribution estimator
 trend_estimator = TrendEstimator(strategy='mean')
 
-explainer = CompositeExplainer(
-  TreeExplainer(
-      model,
-      data=None,
-      feature_perturbation='interventional',
-      trend_estimator=trend_estimator,
-      max_samples=MAXSAMPLES,
-  ),
-  KNNCounterfactuals(
-      model=model,
-      X=X_train,
-      n_neighbors=k,
-      distance='cityblock',
-      scaler=scaler,
-      max_samples=MAX_SAMPLES,
-  )
+# Feature importance estimator
+importance_estimator = TreeExplainer(
+    model,
+    data=None,
+    trend_estimator=trend_estimator,
+    max_samples=MAX_SAMPLES,
 )
+
+# Let's setup the explainer
+explainer = CompositeExplainer(
+    background_generator,
+    importance_estimator,
+)
+
+# Let's generate the explanations for the first 10 samples
+explanations = explainer(X[:10])
+  
 ```
 
 More documentation to come soon. In the meantime, please contact the authors for any question (see below).
