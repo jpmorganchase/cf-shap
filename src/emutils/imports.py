@@ -82,7 +82,7 @@ try:
     tqdm = import_tqdm()
     # Common typo
     tqmd = tqdm
-except:
+except (ModuleNotFoundError, ImportError):
     pass
 
 # DataScience Basics
@@ -95,7 +95,7 @@ try:
         import pandas
         pd = pandas
         print(' | Pandas', pd.__version__, end="")
-    except:
+    except (ModuleNotFoundError, ImportError):
         pass
 
     try:
@@ -103,24 +103,24 @@ try:
         sp = scipy
         import scipy.stats as stats
         print(' | SciPy', sp.__version__, end="")
-    except:
+    except (ModuleNotFoundError, ImportError):
         pass
 
     try:
         import networkx
         nx = networkx
         print(' | NetworkX', nx.__version__, end="")
-    except:
+    except (ModuleNotFoundError, ImportError):
         pass
 
     try:
         import statsmodels
         import statsmodels as sm
         print(' | StatsModels', statsmodels.__version__, end="")
-    except:
+    except (ModuleNotFoundError, ImportError):
         pass
 
-except:
+except (ModuleNotFoundError, ImportError):
     pass
 # DataScience Basics End
 
@@ -130,14 +130,14 @@ print()
 try:
     import sklearn
     print('scikit-learn', sklearn.__version__, end=" | ")
-except:
+except (ModuleNotFoundError, ImportError):
     pass
 
 try:
     import xgboost
     xgb = xgboost
     print('xgboost', xgb.__version__, end=" | ")
-except:
+except (ModuleNotFoundError, ImportError):
     pass
 
 print("\b\b")
@@ -158,15 +158,13 @@ try:
     import seaborn
     sns = seaborn
     print('Seaborn', sns.__version__, end=" | ")
-except:
+except (ModuleNotFoundError, ImportError):
     pass
-# except:
-#     pass
 
 try:
     import graphviz
     print('GraphViz', graphviz.__version__, end=" | ")
-except:
+except (ModuleNotFoundError, ImportError):
     pass
 
 try:
@@ -181,7 +179,7 @@ try:
     # print('Plotly', plotly.__version__, end=f" (mode = {'notebook' if in_ipynb() else 'script'})")
     # copy_plotlyjs('.')
 
-except:
+except (ModuleNotFoundError, ImportError):
     pass
 
 print("\n")

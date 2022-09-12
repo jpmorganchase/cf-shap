@@ -4,7 +4,6 @@
     Background data computed as samples with different label or prediction.
 """
 
-from abc import ABC, abstractclassmethod
 import numpy as np
 
 from ..base import (

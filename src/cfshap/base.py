@@ -18,7 +18,7 @@ try:
     # In Python >= 3.8 this functionality is included in the standard library
     from typing import Protocol
     from typing import runtime_checkable
-except:
+except (ImportError, ModuleNotFoundError):
     # Python < 3.8 - Backward Compatibility through package
     from typing_extensions import Protocol
     from typing_extensions import runtime_checkable
@@ -216,7 +216,7 @@ class BaseExplainer(BaseClass, ABC):
             trends=self.get_trends(X),
         )
 
-    #Alias for 'get_attributions' for backward-compatibility
+    # Alias for 'get_attributions' for backward-compatibility
     def shap_values(self, *args, **kwargs):
         return self.get_attributions(*args, **kwargs)
 

@@ -6,7 +6,6 @@
 
 import logging
 from typing import Union
-import multiprocessing
 
 from emutils.utils import import_tqdm
 from emutils.parallel.utils import Element, split, join, max_cpu_count
@@ -15,9 +14,9 @@ __all__ = ['batch_process']
 
 
 def _parallel_joblib(f, splits, n_jobs):
-    #pylint: disable=import-outside-toplevel
+    # pylint: disable=import-outside-toplevel
     from joblib import Parallel, delayed
-    #pylint: enable=import-outside-toplevel
+    # pylint: enable=import-outside-toplevel
     return Parallel(n_jobs=n_jobs)(delayed(f)(s) for s in splits)
 
 

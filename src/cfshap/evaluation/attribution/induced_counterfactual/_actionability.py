@@ -1,6 +1,5 @@
 import logging
 from typing import Tuple, Union
-from copy import deepcopy
 
 import numpy as np
 from tqdm import tqdm
@@ -207,8 +206,8 @@ class TreeInducedCounterfactualGeneratorV2:
             if show_progress:
                 iters = tqdm(
                     iters,
-                    desc=
-                    f'{desc} - (A)St={action_strategy}/D={action_direction}/Sc={action_scope}/K={k} (C)N={action_cost_normalization}/Agg={action_cost_aggregation}'
+                    desc=(f'{desc} - (A)St={action_strategy}/D={action_direction}/Sc={action_scope}/K={k} '
+                          '(C)N={action_cost_normalization}/Agg={action_cost_aggregation}'),
                 )
 
             # Iterate over all samples

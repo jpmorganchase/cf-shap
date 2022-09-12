@@ -87,23 +87,24 @@ class TreeExplainer(SHAPExplainer):
                 )
 
             # Copied and adapted from SHAP 0.39.0 __init__
-            ### Start of copy ###
+            # -- Start of copy --
             self._explainer.data = self._explainer.model.data = self._data = SHAPIndependent(
                 self.preprocess(data), max_samples=self.max_samples).data
             self._explainer.data_missing = self._explainer.model.data_missing = pd.isna(self._explainer.data)
             try:
                 self._explainer.expected_value = self._explainer.model.predict(self._explainer.data).mean(0)
             except ValueError:
-                raise Exception("Currently TreeExplainer can only handle models with categorical splits when " \
-                                "feature_perturbation=\"tree_path_dependent\" and no background data is passed. Please try again using " \
-                                "shap.TreeExplainer(model, feature_perturbation=\"tree_path_dependent\").")
+                raise Exception(
+                    "Currently TreeExplainer can only handle models with categorical splits when "
+                    "feature_perturbation=\"tree_path_dependent\" and no background data is passed. Please try again using "
+                    "shap.TreeExplainer(model, feature_perturbation=\"tree_path_dependent\").")
             if hasattr(self._explainer.expected_value, '__len__') and len(self._explainer.expected_value) == 1:
                 self._explainer.expected_value = self._explainer.expected_value[0]
 
             # if our output format requires binary classification to be represented as two outputs then we do that here
             if self._explainer.model.model_output == "probability_doubled" and self._explainer.expected_value is not None:
                 self._explainer.expected_value = [1 - self._explainer.expected_value, self._explainer.expected_value]
-            ### End of copy ####
+            # -- End of copy --
         else:
             self._data = None
 

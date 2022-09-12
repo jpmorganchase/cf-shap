@@ -11,7 +11,6 @@ __author__ = 'Emanuele Albini'
 from typing import Dict, Optional
 import warnings
 import numpy as np
-import pandas as pd
 from sklearn.datasets import load_boston, load_breast_cancer
 
 DATASET_NAMES = {

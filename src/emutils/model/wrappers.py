@@ -12,10 +12,10 @@ import numpy as np
 from emutils.preprocessing import process_data
 from cached_property import cached_property
 
-# Fail-safe imports
+# Fail-safe imports (for the case in which XGBoost is not installed)
 try:
     import xgboost as xgb
-except:
+except (ModuleNotFoundError, ImportError):
     pass
 
 __all__ = [

@@ -5,6 +5,8 @@
 """
 
 import logging
+import os
+import random
 
 __all__ = [
     'random_stability',
@@ -29,26 +31,24 @@ def random_stability(
         deterministic (bool) : negatively effect performance making (parallel) operations deterministic. Default to True.
         verbose (bool): Output verbose log. Default to True.
     '''
-    #pylint: disable=bare-except
+    # pylint: disable=bare-except
 
     outputs = []
-    try:
-        import os
-        os.environ['PYTHONHASHSEED'] = str(seed_value)
-        outputs.append('PYTHONHASHSEED (env)')
-    except:
-        pass
-    try:
-        import random
-        random.seed(seed_value)
-        outputs.append('random')
-    except:
-        pass
+
+    # Python environment
+    os.environ['PYTHONHASHSEED'] = str(seed_value)
+    outputs.append('PYTHONHASHSEED (env)')
+
+    # Python random
+    random.seed(seed_value)
+    outputs.append('random')
+
     try:
         import numpy as np
+
         np.random.seed(seed_value)
         outputs.append('NumPy')
-    except:
+    except ModuleNotFoundError:
         pass
 
     # TensorFlow 2
@@ -61,7 +61,7 @@ def random_stability(
             tf.config.threading.intra_op_parallelism_threads(1)
         else:
             outputs.append('TensorFlow 2 (parallel, non-deterministic)')
-    except:
+    except (ModuleNotFoundError, ImportError, AttributeError):
         pass
 
     # TensorFlow 1 & Keras ? Not sure it works
@@ -71,13 +71,13 @@ def random_stability(
             try:
                 import tensorflow.compat.v1
                 from tf.compat.v1 import set_random_seed
-            except:
+            except (ModuleNotFoundError, ImportError):
                 from tf import set_random_seed
 
             try:
-                import tensorflow.compat.v1
+                import tensorflow.compat.v1  # noqa: F811
                 from tf.compat.v1 import ConfigProto
-            except:
+            except (ModuleNotFoundError, ImportError):
                 from tf import ConfigProto
 
             set_random_seed(seed_value)
@@ -93,9 +93,9 @@ def random_stability(
                 from keras import backend as K
                 K.set_session(sess)
                 outputs.append('Keras')
-            except:
+            except (ModuleNotFoundError, ImportError, AttributeError):
                 'Keras random stability failed.'
-    except:
+    except (ModuleNotFoundError, ImportError, AttributeError):
         pass
 
     try:
@@ -109,8 +109,9 @@ def random_stability(
         else:
             outputs.append('PyTorch (parallel, non-deterministic)')
 
-    except:
+    except (ModuleNotFoundError, ImportError, AttributeError):
         pass
-    #pylint: enable=bare-except
+    # pylint: enable=bare-except
+
     if verbose:
         logging.info('Random seed (%d) set for: %s', seed_value, ", ".join(outputs))

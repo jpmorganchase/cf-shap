@@ -5,11 +5,9 @@
 """
 
 import logging
-import json
 import os
 import time
 import random
-from typing import Union
 import warnings
 
 import numpy as np
@@ -177,7 +175,6 @@ def save_booster(model, path):
 
 def train_xgbbooster(X, y, params, save_path=None):
     import xgboost
-    from xgboost import Booster, DMatrix
 
     if save_path is not None:
         assert save_path.endswith('.bin')

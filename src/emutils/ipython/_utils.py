@@ -15,19 +15,19 @@ def in_ipynb():
         Check if we are in a IPython Environment
         Returns True if in IPython, or False otherwise
     '''
-    #pylint: disable=import-outside-toplevel
-    #pylint: disable=expression-not-assigned
-    #pylint: disable=bare-except
+    # pylint: disable=import-outside-toplevel
+    # pylint: disable=expression-not-assigned
+    # pylint: disable=bare-except
 
     try:
         from IPython.core.getipython import get_ipython
         get_ipython().config
         return True
-    except:
+    except:  # noqa: E722
         return False
-    #pylint: enable=import-outside-toplevel
-    #pylint: enable=expression-not-assigned
-    #pylint: enable=bare-except
+    # pylint: enable=import-outside-toplevel
+    # pylint: enable=expression-not-assigned
+    # pylint: enable=bare-except
 
 
 def display(*args, **kwargs):
@@ -35,7 +35,7 @@ def display(*args, **kwargs):
         try:
             from IPython.display import display as ipython_display
             return ipython_display(*args, **kwargs)
-        except:
+        except:  # noqa: E722
 
             warnings.warn("ERROR loading display from IPython")
             pass
@@ -71,16 +71,16 @@ def end(
 
 
 def import_tqdm():
-    #pylint: disable=import-outside-toplevel
+    # pylint: disable=import-outside-toplevel
     if in_ipynb():
         try:
             from tqdm.notebook import tqdm
-        except:
+        except (ImportError, ModuleNotFoundError, AttributeError):
             # Old version of TQDM
             from tqdm import tqdm
     else:
         from tqdm import tqdm
-    #pylint: enable=import-outside-toplevel
+    # pylint: enable=import-outside-toplevel
     return tqdm
 
 
@@ -88,8 +88,8 @@ def notebook_fullwidth():
     """Set the Jupyter Notebook width to the maximum page width
     """
     if in_ipynb():
-        #pylint: disable=import-outside-toplevel
+        # pylint: disable=import-outside-toplevel
         from IPython.core.display import display, HTML
-        #pylint: enable=import-outside-toplevel
+        # pylint: enable=import-outside-toplevel
 
         display(HTML("<style>.container { width:100% !important; }</style>"))

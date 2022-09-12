@@ -11,8 +11,8 @@ import os
 # Monkey Patch broken packages
 
 try:
-    __version__ = pkg_resources.get_distribution('emutils').version
-except:
+    __version__ = pkg_resources.get_distribution(__name__).version
+except pkg_resources.DistributionNotFound:
     __version__ = "0.0.0"
 
 PACKAGE_DATA_FOLDER = os.path.abspath(os.path.join(Path(__file__).parent, 'data'))

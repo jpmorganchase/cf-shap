@@ -4,8 +4,8 @@
     Plot styling utilities.
 """
 
-import matplotlib as mpl
 import matplotlib.pyplot as plt
+# import matplotlib as mpl
 
 from emutils.latex import set_latex
 

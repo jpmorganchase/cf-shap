@@ -133,7 +133,10 @@ class KNNCounterfactuals(BaseMultipleCounterfactualMethod):
         """Generate the multiple closest counterfactuals for each query instance"""
 
         # Pre-condition
-        assert self.__n_neighbors == self.__nb_diverse_counterfactuals, f'n_neighbors and nb_diverse_counterfactuals are set to different values ({self.__n_neighbors} != {self.__nb_diverse_counterfactuals}). When both are set they must be set to the same value.'
+        assert self.__n_neighbors == self.__nb_diverse_counterfactuals, (
+            'n_neighbors and nb_diverse_counterfactuals are set to different values'
+            f'({self.__n_neighbors} != {self.__nb_diverse_counterfactuals}).'
+            'When both are set they must be set to the same value.')
 
         # Pre-process
         X = self.preprocess(X)

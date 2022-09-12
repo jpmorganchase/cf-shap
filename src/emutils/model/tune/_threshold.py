@@ -63,8 +63,6 @@ def find_best_curve_threshold_by_sum(x, y, thr, m=1):
     assert x.shape == y.shape == thr.shape
     assert len(x.shape) == 1
 
-    nb_points = x.shape[0]
-
     # Find best threshold
     best_index = np.argmax(m * y - x)
     best_x = x[best_index]

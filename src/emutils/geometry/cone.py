@@ -208,12 +208,6 @@ def find_decision_boundary_between_multiple_points(
     desc='Find Decision Boundary Ellipse (batch)',
     **kwargs,
 ):
-    if hasattr(model, 'get_booster') and hasattr(model.get_booster(), 'inplace_predict') and hasattr(
-            model, 'threshold'):
-        booster = model.get_booster()
-        predict_lambda = lambda X: 1 * (booster.inplace_predict(X) > model.threshold)
-    else:
-        predict_lambda = model.predict
 
     return batch_process(
         lambda Y: list(
@@ -221,7 +215,7 @@ def find_decision_boundary_between_multiple_points(
                 x=x,
                 Y=Y,
                 num=num,
-                predict_lambda=predict_lambda,
+                predict_lambda=model.predict,
                 **kwargs,
             )),
         iterable=Y,

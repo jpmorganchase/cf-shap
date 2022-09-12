@@ -6,7 +6,6 @@ from copy import deepcopy
 import numba
 import numpy as np
 
-
 __all__ = ['transform_trees', 'mask_values', 'inverse_actionabiltiy']
 
 EPSILON = np.finfo(float).eps
@@ -133,7 +132,7 @@ def filter_children_regions(tree_features, tree_children_left, tree_children_rig
     # Recurse
     if tree_children_left[n] != -1:
         f = tree_features[n]
-        l = tree_children_left[n]
+        l = tree_children_left[n]  # noqa: E741
         r = tree_children_right[n]
         t = tree_thresholds[n]
         tc = tree_thresholds_c[n]
@@ -380,9 +379,9 @@ def inverse_actionabiltiy(
 
     if np.any(np.isnan(phi)):
         if error == 'raise':
-            raise RuntimeError(f'NaN feature attribution.')
+            raise RuntimeError('NaN feature attribution.')
         elif error == 'warning':
-            warnings.warn(f'NaN feature attribution.')
+            warnings.warn('NaN feature attribution.')
         elif error == 'ignore':
             pass
         else:

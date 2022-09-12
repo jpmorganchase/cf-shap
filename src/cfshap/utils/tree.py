@@ -13,7 +13,7 @@ from ..utils import get_shap_compatible_model
 try:
     # Newer versions of SHAPss
     from shap.explainers._tree import TreeEnsemble
-except:
+except (ImportError, ModuleNotFoundError):
     # Older versions of SHAP
     from shap.explainers.tree import TreeEnsemble
 

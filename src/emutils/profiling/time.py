@@ -103,7 +103,8 @@ def estimate_parallel_function_linear_plateau(
     verbose: bool = False,
 ) -> int:
     """Estimate the number of samples after which the runtime of a parallel function (a function that execute on operations on an array in parallel) reaches a linear plateau.
-        >> linear plateau: the runtime of the function over n samples is approximately proportional to n. Typically this happens when the function is given a large number of samples and the runtime dominates over the overhead of the parallelization.
+        >> linear plateau: the runtime of the function over n samples is approximately proportional to n. 
+            Typically this happens when the function is given a large number of samples and the runtime dominates over the overhead of the parallelization.
 
     Args:
         f (callable): A callable function

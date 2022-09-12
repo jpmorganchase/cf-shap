@@ -4,8 +4,7 @@
     CF-SHAP Explainer, it uses a CF generator togheter with an explainer that supports at-runtime background distributions.
 """
 
-from abc import abstractmethod, ABC
-from typing import Iterable, Union, List
+from typing import Union
 import numpy as np
 
 from ..base import (

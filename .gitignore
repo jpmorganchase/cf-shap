@@ -142,3 +142,7 @@ links_init.py
 clean.sh
 
 a.yml
+
+src/emutils/data/lendingclub
+
+flake.txt

@@ -55,14 +55,6 @@ def math_bold(s, latex):
 
 
 @latex_config_decorator
-def bold(s, latex):
-    if latex:
-        return '\\textbf{' + s + '}'
-    else:
-        return s
-
-
-@latex_config_decorator
 def percentage_sign(latex):
     if latex:
         return r'\%'
