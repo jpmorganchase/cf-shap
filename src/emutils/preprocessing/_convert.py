@@ -13,6 +13,7 @@ PROCESS_TYPE = {pd.DataFrame: 'pd', np.ndarray: 'np', dict: 'dict'}
 
 __all__ = [
     'process_data',
+    'data_astype',
 ]
 
 
@@ -21,7 +22,7 @@ def __to_tensor(X):
     return convert_to_tensor(X)
 
 
-def process_data(
+def data_astype(
     X: Union[pd.DataFrame, np.ndarray],
     names: Union[int, Iterable, None] = None,
     names_is: str = 'equal',
@@ -187,6 +188,9 @@ def process_data(
     else:
         raise TypeError(f'Not supported input type: {input_type.__name__}')
 
+
+# Alias
+process_data = data_astype
 
 # def concatenate_data(A: Union[pd.DataFrame, np.ndarray, list], B: Union[pd.DataFrame, np.ndarray, list]):
 #     if isinstance(A, pd.DataFrame) and isinstance(B, pd.DataFrame):
