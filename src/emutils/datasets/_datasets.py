@@ -208,8 +208,9 @@ def load_dataset(dataset='boston', task='classification', as_frame=False, return
     assert 'target_name' not in dt or 'target_names' not in dt, 'target_name and target_names cannot be both present in the dataset.'
 
     # target_names to class_names if required
+    # Some people call classes targets, and viceversa. We want to standardize this.
     if 'target_names' in dt:
-        if 'target' in dt and dt.target.ndim == 1:
+        if 'target' in dt and dt.target.ndim == 1 and len(dt.target_names) > 1:
             dt.class_names = dt.target_names
             del dt.target_names
 
@@ -231,7 +232,7 @@ def load_dataset(dataset='boston', task='classification', as_frame=False, return
             if 'target_name' in dt:
                 dt.target = dt.data[[dt.target_name]]
                 dt.data = dt.data.drop(columns=[dt.target_name])
-            else:  #target_names
+            else:  # target_names
                 dt.target = dt.data[dt.target_names]
                 dt.data = dt.data.drop(columns=dt.target_names)
 

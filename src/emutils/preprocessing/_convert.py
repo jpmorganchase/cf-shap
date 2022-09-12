@@ -64,7 +64,13 @@ def data_astype(
         
         TODO: names_is everywhere
     """
+
+    # Handling of Series
+    if isinstance(X, pd.Series):
+        X = X.to_frame()
+
     input_type = type(X)
+
     if ret_type is None and Xret_type is not None:
         if isinstance(Xret_type, pd.DataFrame):
             ret_type = 'pd'
