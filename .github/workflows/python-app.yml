@@ -39,9 +39,9 @@ jobs:
     - name: Lint (flake8)
       run: |
         # Stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --select=E9,F63,F7,F82 --show-source
         # exit-zero treats all errors as warnings.
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=128 --statistics --show-source --ignore W29
+        flake8 . --exit-zero --show-source
     - name: Test (pytest)
       run: |
         pytest
