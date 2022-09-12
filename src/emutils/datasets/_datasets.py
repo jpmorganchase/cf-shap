@@ -107,6 +107,9 @@ def load_dataset(dataset='boston', task='classification', **kwargs):
     else:
         raise NotImplementedError('Only classification supported so far.')
 
+    if data is None:
+        raise FileNotFoundError('The dataset is supported but could not be loaded.')
+
     assert 'target_name' not in data or 'target_names' not in data, 'target_name and target_names cannot be both present in the dataset.'
 
     # Infer target_name or target_names
