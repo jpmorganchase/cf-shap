@@ -94,11 +94,14 @@ def load_lendingclub(
 
         return df[COLUMNS].reset_index(drop=True).copy()
 
-    if kaggle_dataset(os.path.join(base_path, directory)) is False:
+    dataset_location = kaggle_dataset('lendingclub', directory=directory, base_path=base_path)
+
+    # Could not load the data (must be downloaded from Kaggle first)
+    if dataset_location is None:
         return None
 
     else:
-        df = pd.read_csv(os.path.join(base_path, directory, 'accepted_2007_to_2018q4.csv/accepted_2007_to_2018Q4.csv'))
+        df = pd.read_csv(os.path.join(dataset_location, 'accepted_2007_to_2018q4.csv/accepted_2007_to_2018Q4.csv'))
         df = target_clean(df)
         df = basic_cleaning(df)
 
