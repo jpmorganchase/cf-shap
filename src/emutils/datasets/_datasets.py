@@ -229,8 +229,10 @@ def load_dataset(dataset='boston', task='classification', as_frame=False, return
         if isinstance(dt.data, pd.DataFrame):
             if 'target_name' in dt:
                 dt.target = dt.data[[dt.target_name]]
+                dt.data = dt.data.drop(columns=[dt.target_name])
             else:  #target_names
                 dt.target = dt.data[dt.target_names]
+                dt.data = dt.data.drop(columns=dt.target_names)
 
     # Cast to Numpy
     dt.data = data_astype(dt.data, ret_type='pd' if as_frame else 'np', names=dt.feature_names, inplace=True)
