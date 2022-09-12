@@ -12,7 +12,8 @@ from typing import Dict, Optional
 import warnings
 import numpy as np
 import pandas as pd
-from sklearn.datasets import load_boston, load_breast_cancer
+from sklearn.datasets import load_breast_cancer
+from sklearn.datasets import fetch_openml
 
 from ..utils import attrdict
 from ..preprocessing import data_astype
@@ -168,7 +169,7 @@ def load_dataset(dataset='boston', task='classification', as_frame=False, return
 
     if task == 'classification':
         if dataset == 'boston':
-            dt = load_boston(**kwargs)
+            dt = fetch_openml('boston', version=1, **kwargs)
             dt.target = 1 * (dt.target >= 21.2)
         elif dataset == 'breastcancer':
             dt = load_breast_cancer(**kwargs)
