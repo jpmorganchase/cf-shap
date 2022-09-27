@@ -46,59 +46,7 @@ pip install -e cf-shap
 NOTE: You may want to install the dependencies manually, check `install_requires` in `setup.py` for the list of dependencies for the package.
 
 ## 2. Basic Usage Example
-
-The following example shows how to use the package to generate the feature importance explanations with 100-NN as counterfactual generator and the SHAP TreeExplainer as feature importance estimator.
-
-```python 
-
-X, y = ... # Must be Numpy arrays
-model = ... # Must implement .predict() and .predict_proba() methods.
-
-from emutils.preprocessing.quantiletransformer import EfficientQuantileTransformer
-from cfshap.counterfactuals import KNNCounterfactuals
-from cfshap.attribution import TreeExplainer, CompositeExplainer
-from cfshap.trend import TrendEstimator
-
-MAX_SAMPLES = 10000
-
-X, y = load_dataset(dataset_name, task='classification', return_X_y=True)
-model = train_model(X, y, model_type=model_type, params=dict(random_state=random_seed))
-
-# We will need a scaler in the input space for the counterfactual generator
-scaler = EfficientQuantileTransformer()
-scaler.fit(X)
-
-# Background/Counterfactuals generator
-background_generator = KNNCounterfactuals(
-    model=model,
-    X=X,
-    n_neighbors=100,
-    distance='cityblock',
-    scaler=scaler,
-    max_samples=MAX_SAMPLES,
-)
-
-# We will need a trend estimator for the attribution estimator
-trend_estimator = TrendEstimator(strategy='mean')
-
-# Feature importance estimator
-importance_estimator = TreeExplainer(
-    model,
-    data=None,
-    trend_estimator=trend_estimator,
-    max_samples=MAX_SAMPLES,
-)
-
-# Let's setup the explainer
-explainer = CompositeExplainer(
-    background_generator,
-    importance_estimator,
-)
-
-# Let's generate the explanations for the first 10 samples
-explanations = explainer(X[:10])
-  
-```
+Check out `Example.ipynb` or `Example.html` for a basic usage example of the package.
 
 More documentation to come soon. In the meantime, please contact the authors for any question (see below).
 

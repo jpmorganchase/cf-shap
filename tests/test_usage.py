@@ -1,29 +1,27 @@
 """
-    Limited-tests of basic usage.
-
-    TODO: Improve tests coverage.
+    Tests of basic usage.
 """
 
 import pytest
 import itertools
 
-from emutils.datasets import load_dataset
-from emutils.model.train import train_model
-from emutils.preprocessing.quantiletransformer import EfficientQuantileTransformer
+from sklearn.datasets import load_boston
+from xgboost import XGBClassifier
+
+from cfshap.utils.preprocessing import EfficientQuantileTransformer
 from cfshap.counterfactuals import KNNCounterfactuals
 from cfshap.attribution import TreeExplainer, CompositeExplainer
 from cfshap.trend import TrendEstimator
 
-dataset_names = ['boston', 'breastcancer']
-model_types = ['xgb', 'rf']
-random_seeds = [0]
 
+def test_usage():
 
-@pytest.mark.parametrize('dataset_name, model_type, random_seed',
-                         itertools.product(dataset_names, model_types, random_seeds))
-def test_usage(dataset_name, model_type, random_seed):
-    X, y = load_dataset(dataset_name, task='classification', return_X_y=True)
-    model = train_model(X, y, model_type=model_type, params=dict(random_state=random_seed))
+    dataset = load_boston()
+    X = dataset.data
+    y = (dataset.target > 21).astype(int)
+
+    model = XGBClassifier()
+    model.fit(X, y)
 
     scaler = EfficientQuantileTransformer()
     scaler.fit(X)

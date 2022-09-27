@@ -6,9 +6,9 @@
 
 import logging
 from typing import Union
+from tqdm import tqdm
 
-from emutils.utils import import_tqdm
-from emutils.parallel.utils import Element, split, join, max_cpu_count
+from .utils import Element, split, join, max_cpu_count
 
 __all__ = ['batch_process']
 
@@ -45,9 +45,6 @@ def batch_process(
         n_jobs = 1
     if n_jobs == 'auto':
         n_jobs = n_jobs or (max_cpu_count() - 1)
-
-    if verbose > 0:
-        tqdm = import_tqdm()
 
     # Split
     if verbose > 1:
