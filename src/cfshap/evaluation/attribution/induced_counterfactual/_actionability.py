@@ -4,8 +4,8 @@ from typing import Tuple, Union
 import numpy as np
 from tqdm import tqdm
 
-from emutils.utils import attrdict
-from emutils.preprocessing.multiscaler import MultiScaler
+from ....utils import attrdict
+from ....utils.preprocessing import MultiScaler
 
 from ....base import Model
 from ....utils.tree import TreeEnsemble, get_shap_compatible_model

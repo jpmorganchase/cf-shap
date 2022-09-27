@@ -6,6 +6,7 @@
 
 from typing import Union
 import numpy as np
+from tqdm import tqdm
 
 from ..base import (
     BaseExplainer,
@@ -16,13 +17,7 @@ from ..base import (
 )
 
 from ..background import CounterfactualMethodBackgroundGeneratorAdapter
-
-from emutils.utils import (
-    attrdict,
-    import_tqdm,
-)
-
-tqdm = import_tqdm()
+from ..utils import attrdict
 
 __all__ = [
     'CompositeExplainer',

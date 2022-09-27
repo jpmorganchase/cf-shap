@@ -1,6 +1,4 @@
 """
-    Author: Emanuele Albini
-
     This module implements the (Mean/Median) Absolute Deviation Scalers
 
     NOTE: The acronym MAD (Mean/Median Absolute Deviation) has many different meaning.
@@ -12,15 +10,6 @@
 
 """
 
-from abc import ABC, abstractmethod
-import numpy as np
-from scipy import sparse
-from scipy import stats
-from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.utils.validation import (check_is_fitted, FLOAT_DTYPES)
-from sklearn.utils.sparsefuncs import inplace_column_scale
-from sklearn.utils import check_array
-
 __all__ = [
     'MeanAbsoluteDeviationFromMeanScaler',
     'MeanAbsoluteDeviationFromMedianScaler',
@@ -29,6 +18,16 @@ __all__ = [
     'MedianAbsoluteDeviationScaler',
     'MeanAbsoluteDeviationScaler',
 ]
+__author__ = 'Emanuele Albini'
+
+from abc import ABC, abstractmethod
+import numpy as np
+from scipy import sparse
+from scipy import stats
+from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.utils.validation import (check_is_fitted, FLOAT_DTYPES)
+from sklearn.utils.sparsefuncs import inplace_column_scale
+from sklearn.utils import check_array
 
 
 def mean_absolute_deviation(data, axis=None):
@@ -65,18 +64,18 @@ class AbsoluteDeviationScaler(TransformerMixin, BaseEstimator, ABC):
 
     def _check_inputs(self, X):
         try:
-            X = self._validate_data(
-                X, accept_sparse='csc', estimator=self, dtype=FLOAT_DTYPES, force_all_finite='allow-nan'
-            )
+            X = self._validate_data(X,
+                                    accept_sparse='csc',
+                                    estimator=self,
+                                    dtype=FLOAT_DTYPES,
+                                    force_all_finite='allow-nan')
         except AttributeError:
-            X = check_array(
-                X,
-                accept_sparse='csr',
-                copy=self.copy,
-                estimator=self,
-                dtype=FLOAT_DTYPES,
-                force_all_finite='allow-nan'
-            )
+            X = check_array(X,
+                            accept_sparse='csr',
+                            copy=self.copy,
+                            estimator=self,
+                            dtype=FLOAT_DTYPES,
+                            force_all_finite='allow-nan')
         return X
 
     def fit(self, X, y=None):
@@ -84,10 +83,8 @@ class AbsoluteDeviationScaler(TransformerMixin, BaseEstimator, ABC):
 
         if self.with_centering:
             if sparse.issparse(X):
-                raise ValueError(
-                    "Cannot center sparse matrices: use `with_centering=False`"
-                    " instead. See docstring for motivation and alternatives."
-                )
+                raise ValueError("Cannot center sparse matrices: use `with_centering=False`"
+                                 " instead. See docstring for motivation and alternatives.")
             self.center_ = self._center(X)
         else:
             self.center_ = None
@@ -135,14 +132,12 @@ class AbsoluteDeviationScaler(TransformerMixin, BaseEstimator, ABC):
             Transformed array.
         """
         check_is_fitted(self, ['center_', 'scale_'])
-        X = check_array(
-            X,
-            accept_sparse=('csr', 'csc'),
-            copy=self.copy,
-            estimator=self,
-            dtype=FLOAT_DTYPES,
-            force_all_finite='allow-nan'
-        )
+        X = check_array(X,
+                        accept_sparse=('csr', 'csc'),
+                        copy=self.copy,
+                        estimator=self,
+                        dtype=FLOAT_DTYPES,
+                        force_all_finite='allow-nan')
 
         if sparse.issparse(X):
             if self.with_scaling:

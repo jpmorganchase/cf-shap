@@ -7,7 +7,6 @@
 from collections import defaultdict
 import numpy as np
 
-from emutils.preprocessing import process_data
 from ..utils import get_shap_compatible_model
 
 try:
@@ -119,25 +118,25 @@ class SplitTransformer:
 
     def transform(self, X):
         """Takes inputs and transform them into discrete splits"""
-        A = process_data(X, ret_type='np')
+        A = np.asarray(X)
         self._initialize(A)
         for i in range(A.shape[1]):
             if len(self.splits[i]) > 0:
                 A[:, i] = np.digitize(A[:, i], self.splits[i])
             else:
                 A[:, i] = 0
-        return process_data(A, Xret_type=X, Xindex=X, Xnames=X).astype(int)
+        return A.astype(int)
 
     def inverse_transform(self, X):
         """Takes splits and transform them into continuous inputs
             Note: The post-condition T^(-1)(T(X)) == X may not hold.
         """
-        X_ = process_data(X, ret_type='np').astype(int)
+        X_ = np.asarray(X).astype(int)
         self._initialize(X)
         A = np.full(X.shape, np.nan)
         for i in range(X.shape[1]):
             A[:, i] = self.values[i][X_[:, i]]
-        return process_data(A, Xret_type=X, Xindex=X, Xnames=X)
+        return A
 
 
 # import numba

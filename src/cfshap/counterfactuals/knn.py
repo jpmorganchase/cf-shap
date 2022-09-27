@@ -10,7 +10,6 @@ from typing import Union
 
 import numpy as np
 from sklearn.neighbors import NearestNeighbors
-from emutils.utils import keydefaultdict
 
 from ..base import (
     BaseMultipleCounterfactualMethod,
@@ -18,9 +17,7 @@ from ..base import (
     Scaler,
     ListOf2DArrays,
 )
-
-from emutils.geometry.metrics import get_metric_name_and_params
-
+from ..utils import keydefaultdict
 
 class KNNCounterfactuals(BaseMultipleCounterfactualMethod):
     """Returns the K Nearest Neighbours of the query instance with a different prediction.
@@ -59,7 +56,7 @@ class KNNCounterfactuals(BaseMultipleCounterfactualMethod):
 
         super().__init__(model, scaler, random_state)
 
-        self._metric, self._metric_params = get_metric_name_and_params(distance, **distance_params)
+        self._metric, self._metric_params = distance, distance_params
         self.__nb_diverse_counterfactuals = nb_diverse_counterfactuals
         self.__n_neighbors = n_neighbors
         self.max_samples = max_samples

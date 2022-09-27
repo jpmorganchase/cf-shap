@@ -3,11 +3,9 @@ from typing import Union
 import numpy as np
 from sklearn.neighbors import NearestNeighbors
 
-from emutils.utils import keydefaultdict
-from emutils.random import np_sample
-from emutils.geometry.metrics import get_metric_name_and_params
-
 from ...base import CounterfactualEvaluationScorer, BaseCounterfactualEvaluationScorer
+from ...utils import keydefaultdict
+from ...utils.random import np_sample
 
 
 class BaseNNDistance(CounterfactualEvaluationScorer, BaseCounterfactualEvaluationScorer):
@@ -23,7 +21,7 @@ class BaseNNDistance(CounterfactualEvaluationScorer, BaseCounterfactualEvaluatio
     ):
 
         self._scaler = scaler
-        self._metric, self._metric_params = get_metric_name_and_params(distance, **distance_params)
+        self._metric, self._metric_params = distance, distance_params
         self._n_neighbors = n_neighbors
         self._max_samples = max_samples
         self.random_state = random_state

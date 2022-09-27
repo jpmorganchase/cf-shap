@@ -1,11 +1,17 @@
 """
-    Author: Emanuele Albini
-
     This module implements the MultiScaler.
     The multi scaler is a scaler that allows for different scaling within the same class through an argument passed to the `transform` methods.
     e.g., STD, MAD, Quantile, etc.
 
 """
+
+__all__ = [
+    'MultiScaler',
+    'IdentityScaler',
+    'get_scaler_name',
+    'SCALERS',
+]
+__author__ = 'Emanuele Albini'
 
 from typing import Union
 
@@ -15,7 +21,7 @@ import scipy as sp
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.base import BaseEstimator, TransformerMixin
 
-from ..utils import keydefaultdict
+from ... import keydefaultdict
 
 from .madscaler import (
     MedianAbsoluteDeviationScaler,
@@ -24,13 +30,6 @@ from .madscaler import (
     MedianAbsoluteDeviationFromMeanScaler,
 )
 from .quantiletransformer import EfficientQuantileTransformer
-
-__all__ = [
-    'MultiScaler',
-    'IdentityScaler',
-    'get_scaler_name',
-    'SCALERS',
-]
 
 # NOTE: This will be deprecated, it is confusing
 _DISTANCE_TO_SCALER = {

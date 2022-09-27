@@ -13,17 +13,13 @@ __all__ = [
 
 from copy import deepcopy
 import numpy as np
-
-from emutils.utils import import_tqdm
+from tqdm import tqdm
 
 from ..base import (
     BaseMultipleCounterfactualMethod,
     MultipleCounterfactualMethodSupportsWrapping,
     MultipleCounterfactualMethodWrappable,
 )
-
-tqdm = import_tqdm()
-
 
 class CounterfactualComposition(BaseMultipleCounterfactualMethod):
     def __init__(

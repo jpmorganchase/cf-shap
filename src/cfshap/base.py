@@ -25,8 +25,8 @@ except (ImportError, ModuleNotFoundError):
 
 import numpy as np
 
-from emutils.utils import attrdict
-from emutils.random import np_sample
+from .utils import attrdict
+from .utils.random import np_sample
 
 __all__ = [
     'Scaler',
@@ -116,6 +116,11 @@ class BaseClass(ABC):
 
         if len(X.shape) != 2:
             raise ValueError("The input data must be a 2D matrix.")
+
+        if X.shape[0] == 0:
+            raise ValueError(
+                "An empty array was passed! You must pass a non-empty array of samples in order to generate explanations."
+            )
 
         return X
 

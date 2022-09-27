@@ -1,6 +1,4 @@
 """
-    Author: Emanuele Albini
-
     This module implements an efficient and exact version of the scikit-learn QuantileTransformer.
     
     Note: This module has been inspired from scikit-learn QuantileTransformer
@@ -8,15 +6,16 @@
     See https://github.com/scikit-learn/scikit-learn/blob/2beed5584/sklearn/preprocessing
     
 """
-# %%
+
+__all__ = ['EfficientQuantileTransformer']
+__author__ = 'Emanuele Albini'
+
 import numpy as np
 from scipy import sparse
 from sklearn.utils import check_random_state
 from sklearn.utils.validation import (check_is_fitted, FLOAT_DTYPES)
 from sklearn.preprocessing import QuantileTransformer
 from sklearn.utils import check_array
-
-__all__ = ['EfficientQuantileTransformer']
 
 
 class EfficientQuantileTransformer(QuantileTransformer):
@@ -29,12 +28,12 @@ class EfficientQuantileTransformer(QuantileTransformer):
         
     """
     def __init__(
-        self,
-        *,
-        subsample=np.inf,
-        random_state=None,
-        copy=True,
-        overflow=None,  # "nan" or "sum"
+            self,
+            *,
+            subsample=np.inf,
+            random_state=None,
+            copy=True,
+            overflow=None,  # "nan" or "sum"
     ):
         """Initialize the transformer
 
@@ -68,8 +67,8 @@ class EfficientQuantileTransformer(QuantileTransformer):
             col = np.sort(col)
             quantiles = np.sort(np.unique(col))
             references = 0.5 * np.array(
-                [np.searchsorted(col, v, side='left') + np.searchsorted(col, v, side='right') for v in quantiles]
-            ) / n_samples
+                [np.searchsorted(col, v, side='left') + np.searchsorted(col, v, side='right')
+                 for v in quantiles]) / n_samples
             self.quantiles_.append(quantiles)
             self.references_.append(references)
 
@@ -89,19 +88,15 @@ class EfficientQuantileTransformer(QuantileTransformer):
         """
 
         if self.subsample <= 1:
-            raise ValueError(
-                "Invalid value for 'subsample': %d. "
-                "The number of subsamples must be at least two." % self.subsample
-            )
+            raise ValueError("Invalid value for 'subsample': %d. "
+                             "The number of subsamples must be at least two." % self.subsample)
 
         X = self._check_inputs(X, in_fit=True, copy=False)
         n_samples = X.shape[0]
 
         if n_samples <= 1:
-            raise ValueError(
-                "Invalid value for samples: %d. "
-                "The number of samples to fit for must be at least two." % n_samples
-            )
+            raise ValueError("Invalid value for samples: %d. "
+                             "The number of samples to fit for must be at least two." % n_samples)
 
         rng = check_random_state(self.random_state)
 
@@ -130,27 +125,26 @@ class EfficientQuantileTransformer(QuantileTransformer):
     def _check_inputs(self, X, in_fit, accept_sparse_negative=False, copy=False):
         """Check inputs before fit and transform."""
         try:
-            X = self._validate_data(
-                X, reset=in_fit, accept_sparse=False, copy=copy, dtype=FLOAT_DTYPES, force_all_finite='allow-nan'
-            )
+            X = self._validate_data(X,
+                                    reset=in_fit,
+                                    accept_sparse=False,
+                                    copy=copy,
+                                    dtype=FLOAT_DTYPES,
+                                    force_all_finite='allow-nan')
         except AttributeError:  # Old sklearn version (_validate_data do not exists)
             X = check_array(X, accept_sparse=False, copy=self.copy, dtype=FLOAT_DTYPES, force_all_finite='allow-nan')
 
         # we only accept positive sparse matrix when ignore_implicit_zeros is
         # false and that we call fit or transform.
         with np.errstate(invalid='ignore'):  # hide NaN comparison warnings
-            if (
-                not accept_sparse_negative and not self.ignore_implicit_zeros and
-                (sparse.issparse(X) and np.any(X.data < 0))
-            ):
+            if (not accept_sparse_negative and not self.ignore_implicit_zeros
+                    and (sparse.issparse(X) and np.any(X.data < 0))):
                 raise ValueError('QuantileTransformer only accepts' ' non-negative sparse matrices.')
 
         # check the output distribution
         if self.output_distribution not in ('normal', 'uniform'):
-            raise ValueError(
-                "'output_distribution' has to be either 'normal'"
-                " or 'uniform'. Got '{}' instead.".format(self.output_distribution)
-            )
+            raise ValueError("'output_distribution' has to be either 'normal'"
+                             " or 'uniform'. Got '{}' instead.".format(self.output_distribution))
 
         return X
 
@@ -169,9 +163,8 @@ class EfficientQuantileTransformer(QuantileTransformer):
             Projected data.
         """
         for feature_idx in range(X.shape[1]):
-            X[:, feature_idx] = self._smart_transform_col(
-                X[:, feature_idx], self.quantiles_[feature_idx], self.references_[feature_idx], inverse
-            )
+            X[:, feature_idx] = self._smart_transform_col(X[:, feature_idx], self.quantiles_[feature_idx],
+                                                          self.references_[feature_idx], inverse)
 
         return X
 

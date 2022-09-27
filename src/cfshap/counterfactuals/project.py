@@ -1,27 +1,22 @@
 """
-    Author: Emanuele Albini
-
     Counterfactuals as projection onto the decision boundary (estimated by bisection).
 """
+
+__author__ = 'Emanuele Albini'
+__all__ = ['BisectionProjectionDBCounterfactuals']
 
 import numpy as np
 from tqdm import tqdm
 
-from emutils.utils import keydefaultdict
-from emutils.random import np_sample
-from emutils.geometry.cone import find_decision_boundary_between_multiple_points
-
 from ..base import BaseMultipleCounterfactualMethod
-
-__all__ = ['BisectionProjectionDBCounterfactuals']
+from ..utils import keydefaultdict
+from ..utils.project import find_decision_boundary_bisection
 
 
 class BisectionProjectionDBCounterfactuals(BaseMultipleCounterfactualMethod):
     def __init__(self,
                  model,
                  data,
-                 multiscaler=None,
-                 method=None,
                  num_iters=100,
                  earlystop_error=1e-8,
                  scaler=None,
@@ -34,16 +29,13 @@ class BisectionProjectionDBCounterfactuals(BaseMultipleCounterfactualMethod):
         if scaler is not None:
             raise NotImplementedError('Scaling is not supported by Cone.')
 
-        super().__init__(model, scaler)
+        super().__init__(model, scaler, random_state=random_state)
 
-        self.multiscaler = multiscaler
-        self.method = method
         self.num_iters = num_iters
         self.earlystop_error = earlystop_error
         self.kwargs = kwargs
 
         self._max_samples = min(max_samples or np.inf, nb_diverse_counterfactuals or np.inf)
-        self._random_state = random_state
 
         self.data = data
         self.verbose = verbose
@@ -58,8 +50,8 @@ class BisectionProjectionDBCounterfactuals(BaseMultipleCounterfactualMethod):
             self._raw_data = self.preprocess(data)
             self._preds = self.model.predict(self._raw_data)
 
-            self._data = keydefaultdict(lambda pred: np_sample(
-                self._raw_data[self._preds != pred], n=self._max_samples, safe=True, seed=self._random_state))
+            self._data = keydefaultdict(
+                lambda pred: self.sample(self._raw_data[self._preds != pred], n=self._max_samples))
         else:
             self._raw_data = None
             self._preds = None
@@ -68,12 +60,11 @@ class BisectionProjectionDBCounterfactuals(BaseMultipleCounterfactualMethod):
     def __get_counterfactuals(self, x, pred):
         if self.data is not None:
             return np.array(
-                find_decision_boundary_between_multiple_points(
+                find_decision_boundary_bisection(
                     x=x,
                     Y=self.data[pred],
                     model=self.model,
-                    multiscaler=self.multiscaler,
-                    norm_method=self.method,
+                    scaler=self.scaler,
                     num=self.num_iters,
                     error=self.earlystop_error,
                     method='counterfactual',
