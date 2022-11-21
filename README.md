@@ -34,7 +34,7 @@ J.P. Morgan AI Research
 **Note that this repository contains the package with the algorithms for the generation of the explanations proposed in the paper and their evaluations _but not_ the expriments themselves.** If you are interested in reproducing the results of the paper, please refer to the [cf-shap-facct22](https://github.com/jpmorganchase/cf-shap-facct22) repository (that uses the algorithms implemented in this repository).
  
 ## 1. Installation
-To install the package manually, simply use the following commands. Note that this package depends on shap>=0.39.0 package: you may want to install this package or the other dependencies manually (using conda or pip). See setup.py for more details on the dependencies of the package.
+To install the package manually, simply use the following commands. Note that this package depends on shap>=0.39.0 package: you may want to install this package or the other dependencies manually (using conda or pip). 
 
 ```bash
 # Clone the repo into the `cf-shap` directory
@@ -43,13 +43,13 @@ git clone https://github.com/jpmorganchase/cf-shap.git
 # Install the package in editable mode
 pip install -e cf-shap
 ```
-NOTE: You may want to install the dependencies manually, check `install_requires` in `setup.py` for the list of dependencies for the package.
+The package has been tested with Python 3.6 and 3.8, but it is agnostic to the Python version being used.
+See `setup.py` and `requirements.txt` for more details on the dependencies of the package.
 
-## 2. Basic Usage Example
+## 2. Usage Example
 Check out `Example.ipynb` or `Example.html` for a basic usage example of the package.
 
-More documentation to come soon. In the meantime, please contact the authors for any question (see below).
-
+Please contact the authors for any question/issue you encounter in using the package (see below).
 
 ## 3. Contacts and Issues
 
