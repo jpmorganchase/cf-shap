@@ -6,7 +6,7 @@
 <!-- [![PyPI pyversions](https://img.shields.io/pypi/pyversions/cfshap.svg)](https://pypi.python.org/pypi/cfshap/) -->
 <!-- [![PyPI](https://badge.fury.io/py/cfshap.svg)](https://pypi.python.org/pypi/cfshap/) -->
 [![License](https://img.shields.io/github/license/jpmorganchase/cf-shap)](https://github.com/jpmorganchase/cf-shap/blob/master/LICENSE)
-[![Maintaner](https://img.shields.io/badge/maintainer-Emanuele_Albini-lightgrey)](https://www.emanuelealbini.com)
+[![Maintaner](https://img.shields.io/badge/maintainer-Emanuele_Albini-blue)](https://www.emanuelealbini.com)
 
 
 # Counterfactual SHAP (`cf-shap`)
